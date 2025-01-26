@@ -98,6 +98,7 @@ contract UniswapV2Router01 is IUniswapV2Router01 {
     }
 
     // **** REMOVE LIQUIDITY ****
+    // Note: ✅ function removeLiquidityETH to withdraw ERC20 + ETH
     function removeLiquidity(
         address tokenA,
         address tokenB,

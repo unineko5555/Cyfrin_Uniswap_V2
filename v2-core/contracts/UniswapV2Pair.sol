@@ -136,6 +136,7 @@ contract UniswapV2Pair is IUniswapV2Pair, UniswapV2ERC20 {
     }
 
     // this low-level function should be called from a contract which performs important safety checks
+    // Note: ✅ function burn
     function burn(address to) external lock returns (uint amount0, uint amount1) {
         (uint112 _reserve0, uint112 _reserve1,) = getReserves(); // gas savings
         address _token0 = token0;                                // gas savings
@@ -146,6 +147,8 @@ contract UniswapV2Pair is IUniswapV2Pair, UniswapV2ERC20 {
 
         bool feeOn = _mintFee(_reserve0, _reserve1);
         uint _totalSupply = totalSupply; // gas savings, must be defined here since totalSupply can update in _mintFee
+        // dx  = s * x0 / T
+        // dy  = s * y0 / T
         amount0 = liquidity.mul(balance0) / _totalSupply; // using balances ensures pro-rata distribution
         amount1 = liquidity.mul(balance1) / _totalSupply; // using balances ensures pro-rata distribution
         require(amount0 > 0 && amount1 > 0, 'UniswapV2: INSUFFICIENT_LIQUIDITY_BURNED');
